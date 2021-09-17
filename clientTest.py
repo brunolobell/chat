@@ -60,8 +60,9 @@ class GUI:
         # tyoing the message
         self.entryName = Entry(self.login,
                              font = "Helvetica 14")
-        self.entryName.bind('<Return>',self.pressEnterName)
-         
+
+        self.entryName.bind('<Return>', self.pressEnterName)
+ 
         self.entryName.place(relwidth = 0.4,
                              relheight = 0.12,
                              relx = 0.35,
@@ -79,13 +80,13 @@ class GUI:
          
         self.go.place(relx = 0.4,
                       rely = 0.55)
-        self.Window.mainloop()
-        self.Window.protocol("WM_DELETE_WINDOW", self.onClosing())              
 
+        self.Window.protocol("WM_DELETE_WINDOW", self.onClosing())     
+        self.Window.mainloop()
 
     def onClosing(self):
       if messagebox.askokcancel("Quit", "Do you want to quit?"):
-          self.destroy()
+          self.Window.destroy()
 
     def goAhead(self, name):
         self.login.destroy()
@@ -184,7 +185,6 @@ class GUI:
                         relx = 0.974)
          
         scrollbar.config(command = self.textCons.yview)
-         
         self.textCons.config(state = DISABLED)
  
     # function to basically start the thread for sending messages
@@ -234,7 +234,7 @@ class GUI:
       self.sendButton(self.entryMsg.get())
     
     def pressEnterName(self, event):
-      self.sendButton(self.entryMsg.get())
+      self.goAhead(self.entryName.get())
 
 # create a GUI class object
 g = GUI()

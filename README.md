@@ -1,10 +1,10 @@
 # CHAT
 
-Simple chat application using python to Socket and React to GUI.
+Simple chat application using python to Socket and tkinter to GUI.
 
 ## Instalation
 
-It is necessary to have installed [NPM](https://nodejs.org/en/download/), [Python3](https://www.python.org/downloads) and [pip](https://pip.pypa.io/en/stable).
+It is necessary to have installed [Python3](https://www.python.org/downloads) and [pip](https://pip.pypa.io/en/stable).
 
 ### Enviroment Variables
 
@@ -26,11 +26,7 @@ $ git clone https://github.com/brunolobell/chat.git
 # Open directory
 $ cd chat
 
-# Install dependencies
-# To Socket
-$ pip install -r requirements.txt
-# To GUI
-$ npm install
+# We didn't used libraries
 
 ```
 
@@ -39,21 +35,12 @@ $ npm install
 ### Socket
 
 ``` bash
-# Open directory config
-$ cd config
-
 # Run the socket
 $ python server.py
-```
 
-### GUI
-
-``` bash
 # Run GUI
-$ npm start
+$ python client.py
 
-# In a browser
-http://localhost:3000
 ```
 
 ## Developers

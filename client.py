@@ -10,13 +10,12 @@ from tkinter import messagebox
 #  everything from chat.py file
 #from chat import *
  
-PORT = 5000
-SERVER = "127.0.0.1"
-ADDRESS = (SERVER, PORT)
+HOST = os.getenv('SOCKET_HOST', '127.0.0.1')
+PORT = int(os.getenv('SOCKET_PORT', 5000))
+ADDRESS = (HOST, PORT)
 FORMAT = "utf-8"
  
-# Create a new client socket
-# and connect to the server
+# Create a server socket
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDRESS)
  
@@ -80,9 +79,9 @@ class GUI:
          
         self.go.place(relx = 0.4,
                       rely = 0.55)
-
-        self.Window.protocol("WM_DELETE_WINDOW", self.onClosing())     
+     
         self.Window.mainloop()
+        self.Window.protocol("WM_DELETE_WINDOW", self.onClosing())
 
     def onClosing(self):
       if messagebox.askokcancel("Quit", "Do you want to quit?"):

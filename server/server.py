@@ -37,18 +37,16 @@ def operator(conn, addr, clientList):
       if message:
         # Get current date
         now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        messageSend = "<{} -- {}:{}> {}".format(now, addr[0], str(addr[1]), message)
+        messageSend = "< {} > {}".format(now, message)
         print (messageSend)
         # Send message to users in chat
         for client in clientList:
-          #talvez esse if não precise
-          if client != conn:
-            try:
-              client.send(messageSend.encode())
-            except:
-              client.close()
-              if conn in clientList:
-                clientList.remove(conn)
+          try:
+            client.send(messageSend.encode())
+          except:
+            client.close()
+            if conn in clientList:
+              clientList.remove(conn)
       else:
         if conn in clientList:
           clientList.remove(conn)
@@ -57,9 +55,6 @@ def operator(conn, addr, clientList):
     except:
       continue
   conn.close()
-
-def Interrupt():
-  a="meu pau"
 
 # Function to create a user
 def newUser(clientList, server, threadList):

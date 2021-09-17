@@ -1,5 +1,7 @@
 # import all the required  modules
 #from _typeshed import Self
+import os
+import sys
 import socket
 import threading
 from tkinter import *
@@ -84,8 +86,7 @@ class GUI:
         self.Window.protocol("WM_DELETE_WINDOW", self.onClosing())
 
     def onClosing(self):
-      if messagebox.askokcancel("Quit", "Do you want to quit?"):
-          self.Window.destroy()
+        sys.exit(1)
 
     def goAhead(self, name):
         self.login.destroy()

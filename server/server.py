@@ -18,6 +18,7 @@ def connection():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((HOST, PORT))
     server.listen(CONNECTIONS)
+
   except ValueError as err:
     raise Exception(err)
   
@@ -26,12 +27,13 @@ def connection():
 # Function to receive messages from a connection
 def operator(conn, addr, clientList):
   conn.send(str.encode("Bem-vindo ao Chat de Bruno e Johann!"))
+  conn.settimeout(None)
   print("New Connection: " + addr[0] + ':' + str(addr[1]))
 
   while True:
     try:
       # Receive a message from client
-      message = conn.recv(255).decode()
+      message = conn.recv(1024).decode() 
       if message:
         # Get current date
         now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -39,6 +41,7 @@ def operator(conn, addr, clientList):
         print (messageSend)
         # Send message to users in chat
         for client in clientList:
+          #talvez esse if não precise
           if client != conn:
             try:
               client.send(messageSend.encode())
@@ -54,6 +57,9 @@ def operator(conn, addr, clientList):
     except:
       continue
   conn.close()
+
+def Interrupt():
+  a="meu pau"
 
 # Function to create a user
 def newUser(clientList, server, threadList):
@@ -72,12 +78,12 @@ def main():
   threadList = []
   clientList = []
   server = connection()
-
   while 1:
     clientList = newUser(clientList, server, threadList)
 
   # Stop all threds
   for t in threadList:
+    #é bom comentar sobre o join 
     t.join()
 
   server.close()

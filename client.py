@@ -23,29 +23,18 @@ class GUI:
     # constructor method
     def __init__(self):
         # chat window which is currently hidden
-        self.Window = Tk()
-        self.Window.withdraw()
+        self.tk = Tk()
+        self.tk.withdraw()
          
         # login window
-        self.login = Toplevel()
+        self.startPage = Toplevel()
         # set the title
-        self.login.title("Login")
-        self.login.resizable(width = False,
-                             height = False)
-        self.login.configure(width = 400,
-                             height = 300)
+        self.startPage.title("Login")
+        self.startPage.resizable(width = False, height = False)
+        self.startPage.configure(width = 400, height = 300)
         # create a Label
-        self.pls = Label(self.login,
-                       text = "Please login to continue",
-                       justify = CENTER,
-                       font = "Helvetica 14 bold")
-         
-        self.pls.place(relheight = 0.15,
-                       relx = 0.2,
-                       rely = 0.07)
-        # create a Label
-        self.labelName = Label(self.login,
-                               text = "Name: ",
+        self.labelName = Label(self.startPage,
+                               text = "Nome: ",
                                font = "Helvetica 12")
          
         self.labelName.place(relheight = 0.2,
@@ -54,60 +43,60 @@ class GUI:
          
         # create a entry box for
         # typing the message
-        self.entryName = Entry(self.login,
+        self.inputName = Entry(self.startPage,
                              font = "Helvetica 14")
 
-        self.entryName.bind('<Return>', self.pressEnterName)
+        self.inputName.bind('<Return>', self.pressEnterName)
  
-        self.entryName.place(relwidth = 0.4,
+        self.inputName.place(relwidth = 0.4,
                              relheight = 0.12,
                              relx = 0.35,
                              rely = 0.2)
          
         # set the focus of the curser
-        self.entryName.focus()
+        self.inputName.focus()
          
         # create a Continue Button
         # along with action
-        self.go = Button(self.login,
-                         text = "CONTINUE",
+        self.go = Button(self.startPage,
+                         text = "Entrar no Chat",
                          font = "Helvetica 14 bold",
-                         command = lambda: self.goAhead(self.entryName.get()))
+                         command = lambda: self.goAhead(self.inputName.get()))
          
         self.go.place(relx = 0.4,
                       rely = 0.55)
      
-        self.Window.mainloop()
+        self.tk.mainloop()
 
     def goAhead(self, name):
-        self.login.destroy()
+        self.startPage.destroy()
         self.layout(name)
 
         # the thread to receive messages
-        rcv = threading.Thread(target=self.receive)
-        rcv.start()
+        recv = threading.Thread(target=self.receive)
+        recv.start()
         
     # The main layout of the chat
     def layout(self,name):
 
         self.name = name
         # to show chat window
-        self.Window.deiconify()
-        self.Window.title("CHAT-ROOM")
-        self.Window.resizable(width = True,
+        self.tk.deiconify()
+        self.tk.title("CHAT-ROOM")
+        self.tk.resizable(width = True,
                               height = False)
-        self.Window.configure(width = 770,
+        self.tk.configure(width = 770,
                               height = 550,
                               bg = "#17202A")
-        self.labelHead = Label(self.Window,
+        self.showName = Label(self.tk,
                              bg = "#17202A",
                               fg = "#EAECEE",
                               text = self.name ,
                                font = "Helvetica 13 bold",
                                pady = 5)
          
-        self.labelHead.place(relwidth = 1)
-        self.line = Label(self.Window,
+        self.showName.place(relwidth = 1)
+        self.line = Label(self.tk,
                           width = 450,
                           bg = "#ABB2B9")
          
@@ -115,7 +104,7 @@ class GUI:
                         rely = 0.07,
                         relheight = 0.012)
          
-        self.textCons = Text(self.Window,
+        self.textCons = Text(self.tk,
                              width = 20,
                              height = 2,
                              bg = "#17202A",
@@ -128,37 +117,37 @@ class GUI:
                             relwidth = 1,
                             rely = 0.08)
          
-        self.labelBottom = Label(self.Window,
+        self.labelBottom = Label(self.tk,
                                  bg = "#ABB2B9",
                                  height = 80)
          
         self.labelBottom.place(relwidth = 1,
                                rely = 0.825)
          
-        self.entryMsg = Entry(self.labelBottom,
+        self.inputMsg = Entry(self.labelBottom,
                               bg = "#2C3E50",
                               fg = "#EAECEE",
                               font = "Helvetica 13")
 
-        self.entryMsg.bind('<Return>',self.pressEnterText)
+        self.inputMsg.bind('<Return>',self.pressEnterText)
 
 
         # place the given widget
         # into the gui window
-        self.entryMsg.place(relwidth = 0.74,
+        self.inputMsg.place(relwidth = 0.74,
                             relheight = 0.06,
                             rely = 0.008,
                             relx = 0.011)
          
-        self.entryMsg.focus()
+        self.inputMsg.focus()
 
         # create a Send Button
         self.buttonMsg = Button(self.labelBottom,
-                                text = "Send",
+                                text = "Enviar",
                                 font = "Helvetica 10 bold",
                                 width = 20,
                                 bg = "#ABB2B9",
-                                command = lambda : self.sendButton(self.entryMsg.get()))
+                                command = lambda : self.sendButton(self.inputMsg.get()))
          
         self.buttonMsg.place(relx = 0.77,
                              rely = 0.008,
@@ -178,13 +167,13 @@ class GUI:
         scrollbar.config(command = self.textCons.yview)
         self.textCons.config(state = DISABLED)
  
-    # function to basically start the thread for sending messages
+    # function to start the thread for sending messages
     def sendButton(self, msg):
         self.textCons.config(state = DISABLED)
-        self.msg=msg
-        self.entryMsg.delete(0, END)
-        snd= threading.Thread(target = self.sendMessage)
-        snd.start()
+        self.msg = msg
+        self.inputMsg.delete(0, END)
+        sendMessageThr = threading.Thread(target = self.sendMessage)
+        sendMessageThr.start()
  
     # function to receive messages
     def receive(self):
@@ -219,10 +208,10 @@ class GUI:
 
     #Key shortcuts
     def pressEnterText(self, event):
-      self.sendButton(self.entryMsg.get())
+      self.sendButton(self.inputMsg.get())
     
     def pressEnterName(self, event):
-      self.goAhead(self.entryName.get())
+      self.goAhead(self.inputName.get())
 
 # create a GUI class object
 g = GUI()

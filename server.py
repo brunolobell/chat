@@ -7,7 +7,6 @@ from datetime import datetime
 HOST = os.getenv('SOCKET_HOST', '127.0.0.1')
 PORT = int(os.getenv('SOCKET_PORT', 5000))
 CONNECTIONS = int(os.getenv('SOCKET_CONNECTIONS', 100))
-socket.setdefaulttimeout(60)
 
 # Function to connect to the server
 def connection():

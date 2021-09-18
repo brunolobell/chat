@@ -1,17 +1,13 @@
-# import all the required  modules
-#from _typeshed import Self
+# Import all the required  modules
 import os
-import sys
 import socket
 import threading
 from tkinter import *
 from tkinter import font
 from tkinter import ttk
 from tkinter import messagebox
-# import all functions /
-#  everything from chat.py file
-#from chat import *
- 
+
+# Port config
 HOST = os.getenv('SOCKET_HOST', '127.0.0.1')
 PORT = int(os.getenv('SOCKET_PORT', 5000))
 ADDRESS = (HOST, PORT)
@@ -26,7 +22,6 @@ client.connect(ADDRESS)
 class GUI:
     # constructor method
     def __init__(self):
-
         # chat window which is currently hidden
         self.Window = Tk()
         self.Window.withdraw()
@@ -58,7 +53,7 @@ class GUI:
                              rely = 0.2)
          
         # create a entry box for
-        # tyoing the message
+        # typing the message
         self.entryName = Entry(self.login,
                              font = "Helvetica 14")
 
@@ -83,15 +78,11 @@ class GUI:
                       rely = 0.55)
      
         self.Window.mainloop()
-        self.Window.protocol("WM_DELETE_WINDOW", self.onClosing())
-
-    def onClosing(self):
-        sys.exit(1)
 
     def goAhead(self, name):
         self.login.destroy()
         self.layout(name)
-         
+
         # the thread to receive messages
         rcv = threading.Thread(target=self.receive)
         rcv.start()
@@ -102,8 +93,8 @@ class GUI:
         self.name = name
         # to show chat window
         self.Window.deiconify()
-        self.Window.title("CHATROOM")
-        self.Window.resizable(width = False,
+        self.Window.title("CHAT-ROOM")
+        self.Window.resizable(width = True,
                               height = False)
         self.Window.configure(width = 770,
                               height = 550,
@@ -191,9 +182,6 @@ class GUI:
     def sendButton(self, msg):
         self.textCons.config(state = DISABLED)
         self.msg=msg
-
-        #self.msg.bind('<Key>')
-
         self.entryMsg.delete(0, END)
         snd= threading.Thread(target = self.sendMessage)
         snd.start()

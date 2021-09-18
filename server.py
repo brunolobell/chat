@@ -7,6 +7,7 @@ from datetime import datetime
 HOST = os.getenv('SOCKET_HOST', '127.0.0.1')
 PORT = int(os.getenv('SOCKET_PORT', 5000))
 CONNECTIONS = int(os.getenv('SOCKET_CONNECTIONS', 100))
+socket.setdefaulttimeout(60)
 
 # Function to connect to the server
 def connection():
@@ -34,6 +35,7 @@ def operator(conn, addr, clientList):
     try:
       # Receive a message from client
       message = conn.recv(1024).decode() 
+
       if message:
         # Get current date
         now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -78,7 +80,6 @@ def main():
 
   # Stop all threds
   for t in threadList:
-    #é bom comentar sobre o join 
     t.join()
 
   server.close()
